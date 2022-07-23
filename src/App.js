@@ -2,39 +2,50 @@ import './App.css';
 import { Typography, TextField, MenuItem, FormControl, InputLabel, Select, Grid, Switch, Button  } from '@mui/material';
 import React, { useState } from 'react';
 import { Container } from '@mui/system';
+import PassmarkCalculation from './Componenten/PassmarkCalculation'
 
 
 
 function App() {
   const [value, setValue] = useState("");
-  const [cpuPassmark, setCpuPassmark, gpuPassmark, setGpuPassmark, ramSize, setRamSize, ] = useState(0);
-  const [cpuPassmarkInputError, setCpuPassmarkInputError, gpuPassmarkInputError, setGpuPassmarkInputError, ramPassmarkInputError, setRamPassmarkInputError ] = useState(false);
-  
+ 
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
   const handleChange = (event) => {
-    setValue(event.target.value)
-
-  }
- 
-  const handleInput = (event) => {
-    const inputValue = event.target.value;
     
-    const isString = typeof inputValue === 'string';
-    if (!isString) {
-      setCpuPassmarkInputError(true);
-    }
-    const isNumber = !isNaN(inputValue) && !isNaN(parseFloat(inputValue));
-    setCpuPassmarkInputError(!isNumber);
+  };
 
-    setCpuPassmark(inputValue);
-  }
+  const cpuSelectValues = [
+    {
+      value: 'intel',
+      label: 'Intel'
+    },
+    {
+      value: 'amd',
+      label: 'AMD',
+    }
+  ]
+
+  const ramSelectValues = [
+    {
+      value: 'ddr3',
+      label: 'DDR3'
+    },
+    {
+      value: 'ddr4',
+      label: 'DDR4'
+    }
+  ]
   
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant='h2'>Preisrechner</Typography>
+        <Grid item xs={6}>
+          <Typography variant='h2' align='center'>Preisrechner</Typography>
+        </Grid>
+        
+        <Grid item xs={6}>
+          <img src="Images/Logo Werkstatt.PNG"  className="Logo" alt="" height={100} width={600}/>
         </Grid>
 
         <Grid item xs={12}>
@@ -53,84 +64,11 @@ function App() {
         </FormControl>
         </Grid>
         
-        <Grid item xs={6}> 
-          <FormControl fullWidth>
-            <InputLabel id="cpuchoose">CPU</InputLabel>
-            <Select
-              labelId="cpuchoose"
-              id="cpu"
-              value={value}
-              label="CPU"
-              onChange={handleChange}
-            >
-              <MenuItem value={'intel'}>Intel</MenuItem>
-              <MenuItem value={'amd'}>AMD</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
+        <PassmarkCalculation label="CPU" menuEntries={cpuSelectValues}></PassmarkCalculation>
 
-        <Grid item xs={6}>
-          <TextField 
-            label="Passmark"
-            variant="outlined"
-            value={cpuPassmark}
-            onInput={handleInput}
-            error={cpuPassmarkInputError}
-            ></TextField> 
-        </Grid>
+        <PassmarkCalculation label="GPU" menuEntries={cpuSelectValues}></PassmarkCalculation>
 
-        <Grid item xs={6}>
-          <FormControl fullWidth>
-            <InputLabel id="gpuchoose">GPU</InputLabel>
-            <Select
-              labelId="gpuchoose"
-              id="gpu"
-              value={value}
-              label="GPU"
-              onChange={handleChange}
-            >
-              <MenuItem value={'intel'}>Intel</MenuItem>
-              <MenuItem value={'amd'}>AMD</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={6}>
-          <TextField 
-            label="Passmark"
-            variant="outlined"
-            value={gpuPassmark}
-            onInput={handleInput}
-            error={gpuPassmarkInputError}
-            ></TextField> 
-        </Grid>
-
-        <Grid item xs={6}>
-          <FormControl fullWidth>
-            <InputLabel id="ramchoose">RAM</InputLabel>
-            <Select
-              labelId="ramchoose"
-              id="ram"
-              value={value}
-              label="RAM"
-              onChange={handleChange}
-            >
-              <MenuItem value={'ddr2'}>DDR2</MenuItem>
-              <MenuItem value={'ddr3'}>DDR3</MenuItem>
-              <MenuItem value={'ddr4'}>DDR4</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={6}>
-          <TextField 
-            label="Passmark"
-            variant="outlined"
-            value={ramSize}
-            onInput={handleInput}
-            error={ramPassmarkInputError}
-            ></TextField> 
-        </Grid>
+        <PassmarkCalculation label="RAM" menuEntries={ramSelectValues}></PassmarkCalculation>
 
         <Grid item xs={3}>
           <FormControl fullWidth>
